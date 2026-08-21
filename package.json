@@ -1,0 +1,31 @@
+{
+  "name": "whatsapp-bot-engine",
+  "version": "1.0.0",
+  "description": "WhatsApp Business Bot Engine usando Fastify e Evolution API",
+  "main": "dist/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js"
+  },
+  "keywords": [
+    "whatsapp",
+    "bot",
+    "typescript",
+    "fastify",
+    "devops"
+  ],
+  "author": "Carpenter",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.6.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "fastify": "^5.12.1",
+    "zod": "^4.4.3"
+  }
+}
