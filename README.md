@@ -1,10 +1,10 @@
 # WhatsApp Business Delivery Bot Engine
 
-Engine de automação e chatbot para WhatsApp Business integrado a plataformas de delivery (iFood e 99Food). O projeto foi desenvolvido com foco em modularidade, desempenho e boas práticas de DevOps.
+Automation and chatbot engine for WhatsApp Business integrated with delivery platforms (iFood and 99Food). The project was developed with a focus on modularity, performance, and DevOps best practices.
 
-## Arquitetura
+## Architecture
 
-A aplicação opera de forma orientada a eventos, recebendo webhooks da Evolution API e orquestrando o atendimento em um servidor Node.js com Fastify:
+The application follows an event-driven architecture, receiving webhooks from the Evolution API and orchestrating customer service through a Node.js server built with Fastify:
 
 ```text
 [ Cliente WhatsApp ]
@@ -15,100 +15,100 @@ A aplicação opera de forma orientada a eventos, recebendo webhooks da Evolutio
         v POST /webhook
 [ Fastify Webhook Server ]
         |
-        +--> Validacao de payloads e configuracoes (Zod)
-        +--> Bot Engine (estados e horario comercial)
-        +--> Fetch API nativo --> Resposta ao cliente ou alerta ao atendente
+      +--> Payload and configuration validation (Zod)
+      +--> Bot Engine (states and business hours)
+      +--> Native Fetch API --> Customer response or staff alert
 ```
 
-## Funcionalidades
+## Features
 
-- **Roteamento de delivery:** direcionamento para as páginas do iFood e 99Food.
-- **Redes sociais:** divulgação integrada de Instagram e TikTok.
-- **Horário comercial:** resposta personalizada fora do expediente.
-- **Transbordo humano:** pausa do bot e alerta ao gestor quando o cliente solicita atendimento.
-- **Expiração de sessão:** encerramento automático de atendimentos inativos após um período configurável.
-- **HTTP nativo:** comunicação externa feita com a Fetch API do Node.js, sem dependências HTTP adicionais.
+- **Delivery routing:** direct links to iFood and 99Food pages.
+- **Social media:** integrated Instagram and TikTok promotion.
+- **Business hours:** customized responses outside operating hours.
+- **Human handoff:** pauses the bot and alerts the manager when a customer requests human assistance.
+- **Session expiration:** automatically closes inactive sessions after a configurable period.
+- **Native HTTP:** external communication through Node.js's Fetch API, without additional HTTP dependencies.
 
-## Stack tecnológica
+## Technology stack
 
 - Node.js 24 LTS
-- TypeScript 5 com modo estrito
+- TypeScript 5 with strict mode
 - Fastify 5
-- Zod 4 para validação de tipos e ambiente
-- `tsx` para desenvolvimento
+- Zod 4 for type and environment validation
+- `tsx` for development
 - Evolution API v2.3.7 via Docker
-- PostgreSQL 16 e Redis 7
+- PostgreSQL 16 and Redis 7
 
-## Pré-requisitos
+## Prerequisites
 
-- Node.js 24 ou superior e npm
+- Node.js 24 or later and npm
 - Docker e Docker Compose
 
-## Execução local
+## Local setup
 
-1. Clone o repositório:
+1. Clone the repository:
 
    ```bash
    git clone https://github.com/seu-usuario/whatsapp-bot-engine.git
    cd whatsapp-bot-engine
    ```
 
-2. Suba a infraestrutura:
+2. Start the infrastructure:
 
    ```bash
    docker compose -f docker/docker-compose.yml up -d
    ```
 
-3. Crie o arquivo local de ambiente:
+3. Create the local environment file:
 
    ```bash
    cp .env.example .env
    ```
 
-4. Revise o `.env`, principalmente as credenciais e o número do gestor.
+4. Review `.env`, especially the credentials and manager's phone number.
 
-5. Instale as dependências e inicie o servidor:
+5. Install the dependencies and start the server:
 
    ```bash
    npm install
    npm run dev
    ```
 
-Para gerar e executar a versão de produção:
+To build and run the production version:
 
 ```bash
 npm run build
 npm start
 ```
 
-## Variáveis de ambiente
+## Environment variables
 
-Todas as variáveis são validadas com Zod durante o boot. Os valores padrão estão definidos em `src/config/env.ts`.
+All variables are validated with Zod during startup. Default values are defined in `src/config/env.ts`.
 
-| Variável | Padrão | Descrição |
+| Variable | Default | Description |
 | --- | --- | --- |
-| `PORT` | `3000` | Porta do servidor HTTP. |
-| `HOST` | `0.0.0.0` | Interface de rede do servidor. |
-| `NODE_ENV` | `development` | Ambiente de execução. |
-| `EVOLUTION_API_URL` | `http://localhost:8080` | URL da Evolution API. |
-| `EVOLUTION_API_KEY` | `B0T_S3CR3T_K3Y_2026` | Chave de autenticação da Evolution API. |
-| `EVOLUTION_INSTANCE_NAME` | `delivery-bot` | Nome da instância do WhatsApp. |
-| `IFOOD_URL` | `https://www.ifood.com.br` | Link do iFood. |
-| `FOOD99_URL` | `https://food.99app.com` | Link do 99Food. |
-| `INSTAGRAM_URL` | `https://instagram.com` | Link do Instagram. |
-| `TIKTOK_URL` | `https://tiktok.com` | Link do TikTok. |
-| `ADMIN_WHATSAPP_NUMBER` | `5500000000000` | Número do gestor com código do país. |
-| `OPENING_HOUR` | `11` | Hora de abertura, no formato 24 horas. |
-| `CLOSING_HOUR` | `20` | Hora de fechamento, no formato 24 horas. |
-| `SESSION_TIMEOUT_MINUTES` | `15` | Tempo de expiração da sessão humana. |
+| `PORT` | `3000` | HTTP server port. |
+| `HOST` | `0.0.0.0` | Server network interface. |
+| `NODE_ENV` | `development` | Runtime environment. |
+| `EVOLUTION_API_URL` | `http://localhost:8080` | Evolution API URL. |
+| `EVOLUTION_API_KEY` | `B0T_S3CR3T_K3Y_2026` | Evolution API authentication key. |
+| `EVOLUTION_INSTANCE_NAME` | `delivery-bot` | WhatsApp instance name. |
+| `IFOOD_URL` | `https://www.ifood.com.br` | iFood link. |
+| `FOOD99_URL` | `https://food.99app.com` | 99Food link. |
+| `INSTAGRAM_URL` | `https://instagram.com` | Instagram link. |
+| `TIKTOK_URL` | `https://tiktok.com` | TikTok link. |
+| `ADMIN_WHATSAPP_NUMBER` | `5500000000000` | Manager's phone number, including the country code. |
+| `OPENING_HOUR` | `11` | Opening hour in 24-hour format. |
+| `CLOSING_HOUR` | `20` | Closing hour in 24-hour format. |
+| `SESSION_TIMEOUT_MINUTES` | `15` | Human-support session expiration time. |
 
-> **Importante:** os valores padrão são apenas para desenvolvimento. Troque a chave da Evolution API e o número do gestor antes de qualquer uso real.
+> **Important:** default values are intended for development only. Replace the Evolution API key and manager's phone number before any real-world use.
 
 ## Endpoints
 
 ### `GET /health`
 
-Retorna o estado atual do servidor:
+Returns the current server status:
 
 ```json
 {
@@ -119,19 +119,19 @@ Retorna o estado atual do servidor:
 
 ### `POST /webhook`
 
-Recebe eventos `messages.upsert` enviados pela Evolution API. Mensagens do próprio bot e mensagens de grupos são ignoradas.
+Receives `messages.upsert` events sent by the Evolution API. Messages sent by the bot itself and group messages are ignored.
 
-## Scripts npm
+## npm scripts
 
-| Comando | Descrição |
+| Command | Description |
 | --- | --- |
-| `npm run dev` | Inicia o servidor em modo de desenvolvimento com recarga automática. |
-| `npm run build` | Compila o TypeScript para `dist/`. |
-| `npm start` | Executa o servidor compilado. |
+| `npm run dev` | Starts the server in development mode with automatic reload. |
+| `npm run build` | Compiles TypeScript to `dist/`. |
+| `npm start` | Runs the compiled server. |
 
-## Segurança e organização
+## Security and organization
 
-- Não versione o arquivo `.env`; use `.env.example` como referência.
-- Não mantenha credenciais padrão em ambientes compartilhados ou de produção.
-- A configuração é validada durante o boot para evitar execução com valores inválidos.
-- A infraestrutura fica em `docker/`, os tipos em `src/types/`, os serviços em `src/services/` e o entrypoint em `src/server.ts`.
+- Do not commit `.env`; use `.env.example` as a reference.
+- Do not keep default credentials in shared or production environments.
+- Configuration is validated during startup to prevent execution with invalid values.
+- Infrastructure is located in `docker/`, types in `src/types/`, services in `src/services/`, and the entry point in `src/server.ts`.
